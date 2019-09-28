@@ -9,7 +9,7 @@ The primary goal of this file is to demonstrate a simple python program to class
 @author: rk
 """
 
-def classifyTriangle(a,b,c):
+def classify_triangle(first_side, second_side, third_side):
     """
     Your correct code goes here...  Fix the faulty logic below until the code passes all of
     you test cases.
@@ -27,17 +27,18 @@ def classifyTriangle(a,b,c):
       BEWARE: there may be a bug or two in this code
     """
     # 8 defects found by initial testing
-    # *By doing this before we begin comparing, we can fix the fatal error if someone enters non-comparable data types
+    # Moving this check up fixes fatal error
     # verify that all 3 inputs are integers
     # Python's "isinstance(object,type) returns True if the object is of the specified type
-    if not(isinstance(a,int) and isinstance(b,int) and isinstance(c,int)):
-        return 'InvalidInput';
+    if not(isinstance(first_side, int) and isinstance(second_side, int)
+           and isinstance(third_side, int)):
+        return 'InvalidInput'
 
     # require that the input values be >= 0 and <=
-    if a > 200 or b > 200 or c > 200:
+    if first_side > 200 or second_side > 200 or third_side > 200:
         return 'InvalidInput'
     #*here is where our InvalidInput error most likely came from
-    if a <= 0 or b <= 0 or c <= 0:
+    if first_side <= 0 or second_side <= 0 or third_side <= 0:
         return 'InvalidInput'
 
 
@@ -46,21 +47,25 @@ def classifyTriangle(a,b,c):
     # is important for correctness
     # the sum of any two sides must be strictly less than the third side
     # of the specified shape is not a triangle
-    # *after making the above changes, nearly all inputs are classified as NotATriangle, so this if statement must be fixed
-    # *according to above requirement, the sum of any two sides must be strictly less than the third side, so lets update the logic to reflect that exactly
-    if (((a + b) < c) or ((a + b) < c) or ((b + c) < a)):
+    # statement contained a bug, causing incorrect classifications
+    # statement was updated to reflect logic above
+    if (((first_side + second_side) < third_side)
+            or ((first_side + second_side) < third_side)
+            or ((second_side + third_side) < first_side)):
         return 'NotATriangle'
 
     # now we know that we have a valid triangle
     #*For equilateral, we must check all three sides
-    if a == b and b == c:
+    if first_side == second_side and second_side == third_side:
         return 'Equilateral'
-    # *(a*2) is not equal to a^2, should be a**2
-    # *additionally, if the parameters are entered in a different order, there will be a bug, so we must add other conditions
-    elif ((((a ** 2) + (b ** 2)) == (c ** 2)) or (((b ** 2) + (c ** 2)) == (a ** 2)) or (((a ** 2) + (c ** 2)) == (b ** 2))):
+    # (a*2) is not equal to a^2, should be a**2
+    # statemnt was updated to check for different parameter order
+    elif ((((first_side ** 2) + (second_side ** 2)) == (third_side ** 2))
+          or (((second_side ** 2) + (third_side ** 2)) == (first_side ** 2))
+          or (((first_side ** 2) + (third_side ** 2)) == (second_side ** 2))):
         return 'Right'
     # *need to check all three sides
-    elif (a != b) and  (b != c) and (a != c):
+    elif (first_side != second_side) and (second_side != third_side) and (first_side != third_side):
         return 'Scalene'
     else:
         return 'Isosceles'
